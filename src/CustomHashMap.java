@@ -20,7 +20,7 @@ public class CustomHashMap<K, V> {
 
     private int capacity = 16;
     private int size = 0;
-    private float loadFactor = 0.75f;
+    final private float loadFactor = 0.75f;
     private Node<K, V>[] buckets;
 
     private int indexForKey(K key) {
@@ -96,8 +96,7 @@ public class CustomHashMap<K, V> {
         for (Node<K, V> head : buckets) {
             while (head != null) {
                 Node<K, V> next = head.next;
-                int newIndex = (head.key == null ? 0 :
-                        (head.key.hashCode() & Integer.MAX_VALUE) % capacity);
+                int newIndex = indexForKey(head.key);
                 head.next = newBuckets[newIndex];
                 newBuckets[newIndex] = head;
                 head = next;
